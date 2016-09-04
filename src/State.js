@@ -138,7 +138,7 @@ class State {
                 if (listeners && listeners.length) {
                     listeners.forEach(l => {
                         if (l.listenerCount('change') > 0) {
-                            l.emit('change', { path, value })
+                            l.emit('change', value)
                         }
                         else {
                             // lose that one from the list.

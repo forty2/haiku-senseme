@@ -98,14 +98,19 @@ SenseMe.on('founddevice', dev => {
         ;
     */
 
-    /*
     if (dev.name === 'Living Room Fan') {
+        dev.device.heightInFeet
+            .observe()
+            .subscribe(
+                ::Logger.debug
+            );
+        /*
         setTimeout(function() {
             console.log(`get: ${dev.name}: ${dev.fan.speed.value}`);
         }, 1000);
         setTimeout(function() {
             dev.fan.speed.value = 2;
         }, 5000);
+        */
     }
-    */
 });

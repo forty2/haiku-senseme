@@ -1,7 +1,11 @@
+import { EventEmitter } from 'events';
+
+import compose from 'just-compose';
 import polynomial from 'compute-polynomial';
 
 import { validateAndMap, mapBack } from '../mapValues';
 import Observable, { hasObservable } from '../observable';
+import { method as map } from '../observable/map';
 import round from '../util/round';
 
 let accessorGenerators = { };
@@ -39,8 +43,8 @@ function accessorVisitor(name, props, node, context) {
                             Object.defineProperties(
                                 {}, {
                                     isComputed: { value: true },
-                                    haseName:   { value: props.friendlyName },
-                                    func:       { value: getComputedDescriptor({ props, forward, reverse }) }
+                                    baseName:   { value: props.friendlyName },
+                                    func:       { value: getComputedDescriptor({ props, forward, reverse, context }) }
                                 }
                             );
                     }
@@ -101,16 +105,22 @@ function getDescriptor(props, context) {
     }
 }
 
-function getComputedDescriptor({ props, forward, reverse }) {
+function getComputedDescriptor({ props, forward, reverse, context }) {
+    const {
+        calculatedPaths: {
+            getPath
+        }
+    } = context;
+
     return (base) => {
         let value = {
             enumerable: true,
-            get: () => polynomial(forward, base.value)::round(2)
+            get: () => polynomial(forward, mapBack(getPath, base.value))::round(2)
         }
 
         if (props.settable) {
             value.set = (value) => {
-                base.value = polynomial(reverse, value)::round(2);
+                base.value = validateAndMap(getPath, polynomial(reverse, value))
             };
         }
 
@@ -124,7 +134,15 @@ function getComputedDescriptor({ props, forward, reverse }) {
                 writable: false,
                 enumerable: true,
                 value: () => {
-                    // TODO: how can we be sure to get the correct variant?
+                    let ret = new EventEmitter();
+                    base.listen()
+                        .on('change',
+                            compose(
+                                x => polynomial(forward, mapBack(getPath, x))::round(2),
+                                x => ret.emit('change', x)
+                            )
+                        )
+                    return ret;
                 }
             }
         };
@@ -133,11 +151,11 @@ function getComputedDescriptor({ props, forward, reverse }) {
             functions.observe = {
                 writable: false,
                 enumerable: true,
-                value: () => {
-                    // TODO: haven't really established what type observe() returns.
-                    // Figure it out, then implement this method.
-                    // TODO: how can we be sure to get the correct variant?
-        i        }
+                value: () =>
+                    base.observe()
+                        ::map(x =>
+                            x ? polynomial(forward, mapBack(getPath, x))::round(2) : x
+                        )
             }
         }
 
