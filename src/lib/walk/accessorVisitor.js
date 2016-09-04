@@ -115,12 +115,12 @@ function getComputedDescriptor({ props, forward, reverse, context }) {
     return (base) => {
         let value = {
             enumerable: true,
-            get: () => polynomial(forward, mapBack(getPath, base.value))::round(2)
+            get: () => polynomial(forward, base.value)::round(2)
         }
 
         if (props.settable) {
             value.set = (value) => {
-                base.value = validateAndMap(getPath, polynomial(reverse, value))
+                base.value = polynomial(reverse, value);
             };
         }
 

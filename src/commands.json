@@ -52,7 +52,7 @@
         "WHOOSH": {
             "meta": {
                 "valuePath": [ "STATUS" ],
-                "setPath": [ "STATUS" ],
+                "setPath": [ ],
                 "friendlyName": "whooshMode",
                 "settable": true,
                 "type": "power"
@@ -193,11 +193,47 @@
                 "settable": true,
                 "type": "enum",
                 "values": {
-                    "LEARN": "learn",
+                    "OFF": "off",
                     "COOLING": "cooling",
                     "HEATING": "heating",
-                    "FOLLOWSTAT": "followThermostat"
+                    "FOLLOWTSTAT": "followThermostat"
                 }
+            }
+        }
+    },
+
+    "LEARN": {
+        "meta": {
+            "friendlyName": "smartMode",
+            "type": "group"
+        },
+
+        "MINSPEED": {
+            "meta": {
+                "friendlyName": "minimumSpeed",
+                "type": "number",
+                "settable": true
+            }
+        },
+
+        "MAXSPEED": {
+            "meta": {
+                "friendlyName": "maximumSpeed",
+                "type": "number",
+                "settable": true
+            }
+        },
+
+        "ZEROTEMP": {
+            "meta": {
+                "friendlyName": "idealTemperatureC",
+                "settable": true,
+                "type": "temperature",
+                "computed": [{
+                    "friendlyName": "idealTemperatureF",
+                    "forward": [ 1.8, 32 ],
+                    "reverse": [ 0.5555555555555556, -17.7777777777777778 ]
+                }]
             }
         }
     },
@@ -210,7 +246,7 @@
 
         "STATE": {
             "meta": {
-                "friendlyName": "isOn",
+                "friendlyName": "status",
                 "settable": true,
                 "type": "power"
             }
@@ -231,7 +267,7 @@
                 "computed": [{
                     "friendlyName": "idealTemperatureF",
                     "forward": [ 1.8, 32 ],
-                    "reverse": [ 0.5555555555555556, 17.7777777777777778 ]
+                    "reverse": [ 0.5555555555555556, -17.7777777777777778 ]
                 }]
             }
         },
@@ -272,7 +308,7 @@
 
         "BEEPER": {
             "meta": {
-                "friendlyName": "beepsEnabled",
+                "friendlyName": "beeperStatus",
                 "settable": true,
                 "type": "power"
             }
@@ -280,7 +316,7 @@
 
         "INDICATORS": {
             "meta": {
-                "friendlyName": "indicatorsEnabled",
+                "friendlyName": "indicatorsStatus",
                 "settable": true,
                 "type": "power"
             }
@@ -295,7 +331,7 @@
 
         "STATE": {
             "meta": {
-                "friendlyName": "winterModeEnabled",
+                "friendlyName": "winterMode",
                 "settable": true,
                 "type": "power"
             }
@@ -331,8 +367,8 @@
 
         "DHCP": {
             "meta": {
-                "friendlyName": "isDhcpEnabled",
-                "settable": true,
+                "friendlyName": "dhcpStatus",
+                "settable": false,
                 "type": "power"
             }
         },
@@ -340,7 +376,7 @@
         "SSID": {
             "meta": {
                 "friendlyName": "ssid",
-                "settable": true,
+                "settable": false,
                 "type": "string"
             }
         },
@@ -349,8 +385,8 @@
             "meta": {
                 "valuePath": [ "STATUS" ],
                 "setPath": [ "STATUS" ],
-                "friendlyName": "isAccessPoint",
-                "settable": true,
+                "friendlyName": "accessPointStatus",
+                "settable": false,
                 "type": "power"
             }
         }

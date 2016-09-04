@@ -1,4 +1,5 @@
 import polynomial from 'compute-polynomial';
+import values from 'just-values';
 
 import {
     realPathToFriendlyPath,
@@ -13,7 +14,7 @@ let validators = {
 
     number:      (value, spec) => typeof value === 'number' &&
                                     !spec.values || (value >= spec.values[0] && value <= spec.values[1]),
-    enum:        (value, spec) => spec.values && value in spec.values,
+    enum:        (value, spec) => spec.values && values(spec.values).includes(value),
     boolean:     (value)       => typeof value === 'boolean',
     temperature: (value)       => typeof value === 'number' && value >= 10 && value <= 32.22,
     height:      (value)       => typeof value === 'number',

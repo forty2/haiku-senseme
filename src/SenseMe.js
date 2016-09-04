@@ -64,7 +64,29 @@ class SenseMe extends EventEmitter {
         }
     }
 
-    discover(interval = DEFAULT_SCAN_INTERVAL) {
+    getDeviceById(id) {
+        const {
+            registry
+        } = this[$private];
+
+        if (id in registry) {
+            return registry[id].device;
+        }
+        return undefined;
+    }
+
+    getDeviceByName(name) {
+        const {
+            registry, nameToId
+        } = this[$private];
+
+        if (name in nameToId && nameToId[name] in registry) {
+            return registry[nameToId[name]].device;
+        }
+        return undefined;
+    }
+
+    discover(interval = DEFAULT_SCAN_INTERVAL, missingThreshold = MISSING_THRESHOLD) {
         const { registry } = this[$private];
 
         let server = dgram.createSocket('udp4');
@@ -103,7 +125,7 @@ class SenseMe extends EventEmitter {
                 nextTick(() => {
                     client.close()
                     Object.keys(registry)
-                        .filter(x => (registry[x].lastseen + (MISSING_THRESHOLD * interval))< Date.now())
+                        .filter(x => (registry[x].lastseen + (missingThreshold * interval))< Date.now())
                         .forEach(x => {
                             let dev = registry[x];
                             delete registry[x];

@@ -59,7 +59,7 @@ class Device {
     }
 
     _handleMessage(msg) {
-        //Logger.debug(`Incoming: ${msg}`);
+        Logger.debug(`Incoming: ${msg}`);
         let path = msg.replace(/^\(([^)]+)\)$/, '$1').split(';');
         let deviceName = path.shift();
 

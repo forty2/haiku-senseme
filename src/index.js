@@ -5,6 +5,7 @@ import util from 'util';
 
 import Logger from 'js-logger';
 
+import Observable from './lib/observable';
 import SenseMe from './SenseMe';
 
 Logger.useDefaults({
@@ -99,11 +100,15 @@ SenseMe.on('founddevice', dev => {
     */
 
     if (dev.name === 'Living Room Fan') {
-        dev.device.heightInFeet
-            .observe()
+        Logger.debug(util.inspect(dev, { depth: null }));
+        /*
+        dev.observeAll()
             .subscribe(
-                ::Logger.debug
+                ::Logger.debug,
+                ::Logger.error,
+                () => Logger.info('done')
             );
+            */
         /*
         setTimeout(function() {
             console.log(`get: ${dev.name}: ${dev.fan.speed.value}`);
