@@ -82,13 +82,13 @@ SenseMe.discover();
 SenseMe.on('founddevice', dev => {
     Logger.debug(`Found a device: ${dev.name} (${dev.ip})`);
 
-    /*
     dev.observeAll()
         .subscribe(
             ::Logger.debug,
             ::Logger.error,
             () => Logger.info('done')
         );
+    /*
         */
 
     //dev.fan.power.listen()
@@ -99,11 +99,13 @@ SenseMe.on('founddevice', dev => {
     */
 
     /*
-    setTimeout(function() {
-        console.log(`get: ${dev.name}: ${dev.fan.speed.current.value}`);
-    }, 1000);
-    setTimeout(function() {
-        dev.fan.speed.current.value = 4;
-    }, 5000);
+    if (dev.name === 'Living Room Fan') {
+        setTimeout(function() {
+            console.log(`get: ${dev.name}: ${dev.fan.speed.value}`);
+        }, 1000);
+        setTimeout(function() {
+            dev.fan.speed.value = 2;
+        }, 5000);
+    }
     */
 });

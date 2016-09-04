@@ -1,47 +1,33 @@
-const commands = require('./commands.json');
+import polynomial from 'compute-polynomial';
+
+import {
+    realPathToFriendlyPath,
+    friendlyPathToRealPath
+} from './lib/walk/pathMappingVisitor';
+
+import { specByDataPath } from './lib/walk/specVisitor';
+import round from './lib/util/round';
 
 let validators = {
-    power: (value) => {
-        return value in { on: 'ON', off: 'OFF' };
-    },
+    power:       (value) => value in { on: 'ON', off: 'OFF' },
 
-    number: (value, spec) => {
-        if (typeof value === 'number') {
-            return !spec.values || (value >= spec.values[0] && value <= spec.values[1]);
-        }
-        return false;
-    },
-
-    enum: (value, spec) => {
-        return spec.values && value in spec.values;
-    },
-
-    boolean: (value, spec) => {
-        return typeof value === 'boolean';
-    },
-
-    temperature: (value, spec) => {
-        return typeof value === 'number' && value >= 10 && value <= 32.22;
-    },
-
-    height: (value, spec) => {
-        return typeof value === 'number';
-    },
-
-    string: () => true,
+    number:      (value, spec) => typeof value === 'number' &&
+                                    !spec.values || (value >= spec.values[0] && value <= spec.values[1]),
+    enum:        (value, spec) => spec.values && value in spec.values,
+    boolean:     (value)       => typeof value === 'boolean',
+    temperature: (value)       => typeof value === 'number' && value >= 10 && value <= 32.22,
+    height:      (value)       => typeof value === 'number',
+    string:      ()            => true,
 }
 
 const forwardMappings = {
-    power: (value) => {
-        return { on: 'ON', off: 'OFF' }[value];
-    },
-
+    power:  (value) => ({ on: 'ON', off: 'OFF' })[value],
     number: (
                 value, {
                     values: [
                         min = Number.MIN_SAFE_INTEGER,
                         max = Number.MAX_SAFE_INTEGER
-                    ]
+                    ] = [ ]
                 }
             ) => Math.min(Math.max(value, min), max),
 
@@ -55,8 +41,7 @@ const forwardMappings = {
         throw new Error(`Unable to forward-map ${value}`);
     },
 
-    boolean: (value, spec) => spec.values[Number(!!value)],
-
+    boolean:     (value, spec) => spec.values[Number(!!value)],
     temperature: (value) => {
         // by the time we get here, any necessary F -> C conversion
         // has already happened.  all we need to do is round to 2
@@ -75,11 +60,8 @@ const forwardMappings = {
 }
 
 function validateAndMap(path, value) {
-    let spec =
-        path.reduce(
-            (acc, k) => acc[k],
-            commands
-        ).meta;
+    console.log('need spec for: ' + path);
+    let spec = specByDataPath[path.join(';')];
 
     if (spec.type in validators && spec.type in forwardMappings)
     {
@@ -95,12 +77,7 @@ function validateAndMap(path, value) {
 }
 
 function mapForward(path, value) {
-    let spec =
-        path.reduce(
-            (acc, k) => acc[k],
-            commands
-        ).meta;
-
+    let spec = specByDataPath[path.join(';')];
     if (spec.type in forwardMappings) {
         return forwardMappings[spec.type](value, spec);
     }
@@ -132,17 +109,7 @@ const reverseMappings = {
 };
 
 function mapBack(path, value) {
-    let spec =
-        path.reduce(
-            (acc, k) => {
-                if (!acc.meta.paths && !acc.meta.path) {
-                    return acc[k]
-                }
-                return acc;
-            },
-            commands
-        ).meta;
-
+    let spec = specByDataPath[path.join(';')];
     if (spec && spec.type in reverseMappings) {
         return reverseMappings[spec.type](value, spec);
     }
@@ -150,8 +117,46 @@ function mapBack(path, value) {
     throw new Error("I don't know this type: " + spec.type);
 }
 
+function translateHardwareValues({ path, value }) {
+    let spec = specByDataPath[path.join(';')];
+    if (!spec) return [];
+
+    let results = [];
+
+    let friendlyPath = realPathToFriendlyPath[path.join(';')].split(';'),
+        currentValue = mapBack(path, value);
+
+    results.push({
+        path: [].concat(friendlyPath),
+        value: currentValue
+    });
+
+    if (spec.computed) {
+        spec.computed
+            .map(
+                ({ friendlyName, forward }) =>
+                    ({
+                        friendlyName,
+                        value: polynomial(forward, currentValue)::round(2)
+                    })
+            )
+            .forEach(
+                ({ friendlyName, value }) => {
+                    friendlyPath[friendlyPath.length - 1] = friendlyName;
+
+                    results.push({
+                        path: [].concat(friendlyPath),
+                        value
+                    });
+                }
+            );
+    }
+
+    return results;
+}
 export {
     validateAndMap,
     mapBack,
-    mapForward
+    mapForward,
+    translateHardwareValues
 }

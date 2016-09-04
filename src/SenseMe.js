@@ -3,6 +3,7 @@ import { nextTick } from 'process';
 import dgram from 'dgram';
 
 import Device from './Device';
+import { loadCommands } from './lib/walk';
 
 import constants from './constants';
 const {
@@ -119,6 +120,7 @@ class SenseMe extends EventEmitter {
     }
 }
 
+loadCommands();
 let single = new SenseMe();
 
 export {
