@@ -10,7 +10,7 @@ import QueuedSocket from './QueuedSocket';
 import State from './State';
 
 import createAccessors from './lib/createAccessors';
-import { translateHardwareValues, mapBack } from './_mapValues';
+import { translateHardwareValues, mapBack } from './lib/mapValues';
 
 import constants from './constants';
 const { SENSEME_PORT } = constants;

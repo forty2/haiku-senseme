@@ -1,6 +1,6 @@
 import polynomial from 'compute-polynomial';
 
-import { validateAndMap, mapBack } from '../../_mapValues';
+import { validateAndMap, mapBack } from '../mapValues';
 import Observable, { hasObservable } from '../observable';
 import round from '../util/round';
 

@@ -3,10 +3,10 @@ import polynomial from 'compute-polynomial';
 import {
     realPathToFriendlyPath,
     friendlyPathToRealPath
-} from './lib/walk/pathMappingVisitor';
+} from './walk/pathMappingVisitor';
 
-import { specByDataPath } from './lib/walk/specVisitor';
-import round from './lib/util/round';
+import { specByDataPath } from './walk/specVisitor';
+import round from './util/round';
 
 let validators = {
     power:       (value) => value in { on: 'ON', off: 'OFF' },
@@ -60,9 +60,7 @@ const forwardMappings = {
 }
 
 function validateAndMap(path, value) {
-    console.log('need spec for: ' + path);
     let spec = specByDataPath[path.join(';')];
-
     if (spec.type in validators && spec.type in forwardMappings)
     {
         if (validators[spec.type](value, spec)) {

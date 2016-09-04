@@ -82,13 +82,13 @@ SenseMe.discover();
 SenseMe.on('founddevice', dev => {
     Logger.debug(`Found a device: ${dev.name} (${dev.ip})`);
 
+    /*
     dev.observeAll()
         .subscribe(
             ::Logger.debug,
             ::Logger.error,
             () => Logger.info('done')
         );
-    /*
         */
 
     //dev.fan.power.listen()
