@@ -1,0 +1,358 @@
+{
+    "meta": { },
+    "FAN": {
+        "meta": {
+            "friendlyName": "fan",
+            "type": "group"
+        },
+
+        "PWR": {
+            "meta": {
+                "friendlyName": "power",
+                "settable": true,
+                "type": "power"
+            }
+        },
+        "SPD": {
+            "meta": {
+                "type": "number",
+                "settable": true,
+                "friendlyName": "speed",
+                "valuePath": [ "ACTUAL" ],
+                "setPath": [ ]
+            },
+
+            "MIN": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "minimum",
+                    "settable": false
+                }
+            },
+
+            "MAX": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "maximum",
+                    "settable": false
+                }
+            }
+        },
+
+        "AUTO": {
+            "meta": {
+                "friendlyName": "automaticOn",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "WHOOSH": {
+            "meta": {
+                "valuePath": [ "STATUS" ],
+                "setPath": [ "STATUS" ],
+                "friendlyName": "whooshMode",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "DIR": {
+            "meta": {
+                "friendlyName": "direction",
+                "settable": true,
+                "type": "enum",
+                "values": {
+                    "FWD": "forward",
+                    "REV": "reverse"
+                }
+            }
+        }
+    },
+
+    "LIGHT": {
+        "meta": {
+            "friendlyName": "light",
+            "type": "group"
+        },
+
+        "PWR": {
+            "meta": {
+                "friendlyName": "power",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "LEVEL": {
+            "meta": {
+                "friendlyName": "brightness",
+                "valuePath": [ "ACTUAL" ],
+                "setPath": [ ],
+                "settable": true,
+                "type": "number",
+                "values": [0, 16]
+            },
+
+            "MIN": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "minimum",
+                    "settable": false
+                }
+            },
+
+            "MAX": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "maximum",
+                    "settable": false
+                }
+            }
+        },
+
+        "AUTO": {
+            "meta": {
+                "friendlyName": "automaticOn",
+                "settable": true,
+                "type": "power"
+            }
+        }
+    },
+
+    "SNSROCC": {
+        "meta": {
+            "friendlyName": "sensor",
+            "type": "group"
+        },
+
+        "TIMEOUT": {
+            "meta": {
+                "friendlyName": "timeout",
+                "valuePath": [ "CURR" ],
+                "setPath": [ ],
+                "settable": true,
+                "type": "number"
+            },
+
+            "MIN": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "minimum",
+                    "settable": false
+                }
+            },
+
+            "MAX": {
+                "meta": {
+                    "type": "number",
+                    "isDerived": true,
+                    "friendlyName": "maximum",
+                    "settable": false
+                }
+            }
+        },
+
+        "STATUS": {
+            "meta": {
+                "friendlyName": "isRoomOccupied",
+                "settable": false,
+                "type": "boolean",
+                "values": [ "UNOCCUPIED", "OCCUPIED" ]
+            }
+        }
+    },
+
+    "SMARTMODE": {
+        "meta": {
+            "friendlyName": "smartMode",
+            "type": "group"
+        },
+
+        "ACTUAL": {
+            "meta": {
+                "friendlyName": "actual",
+                "settable": true,
+                "type": "enum",
+                "values": {
+                    "OFF": "off",
+                    "COOLING": "cooling",
+                    "HEATING": "heating"
+                }
+            }
+        },
+
+        "STATE": {
+            "meta": {
+                "friendlyName": "state",
+                "settable": true,
+                "type": "enum",
+                "values": {
+                    "LEARN": "learn",
+                    "COOLING": "cooling",
+                    "HEATING": "heating",
+                    "FOLLOWSTAT": "followThermostat"
+                }
+            }
+        }
+    },
+
+    "SLEEP": {
+        "meta": {
+            "friendlyName": "sleepMode",
+            "type": "group"
+        },
+
+        "STATE": {
+            "meta": {
+                "friendlyName": "isOn",
+                "settable": true,
+                "type": "power"
+            }
+        }
+    },
+
+    "SMARTSLEEP": {
+        "meta": {
+            "friendlyName": "sleepMode",
+            "type": "group"
+        },
+
+        "IDEALTEMP": {
+            "meta": {
+                "friendlyName": "idealTemperatureC",
+                "settable": true,
+                "type": "temperature",
+                "computed": [{
+                    "friendlyName": "idealTemperatureF",
+                    "forward": [ 1.8, 32 ],
+                    "reverse": [ 0.5555555555555556, 17.7777777777777778 ]
+                }]
+            }
+        },
+
+        "MINSPEED": {
+            "meta": {
+                "friendlyName": "minimumFanSpeed",
+                "settable": true,
+                "type": "number",
+                "values": [0, 7]
+            }
+        },
+
+        "MAXSPEED": {
+            "meta": {
+                "friendlyName": "maximumFanSpeed",
+                "settable": true,
+                "type": "number",
+                "values": [0, 7]
+            }
+        }
+    },
+
+    "DEVICE": {
+        "meta": {
+            "friendlyName": "device",
+            "type": "group"
+        },
+
+        "LIGHT": {
+            "meta": {
+                "friendlyName": "hasLight",
+                "settable": false,
+                "type": "boolean",
+                "values": [ "NOT PRESENT", "PRESENT" ]
+            }
+        },
+
+        "BEEPER": {
+            "meta": {
+                "friendlyName": "beepsEnabled",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "INDICATORS": {
+            "meta": {
+                "friendlyName": "indicatorsEnabled",
+                "settable": true,
+                "type": "power"
+            }
+        }
+    },
+
+    "WINTERMODE": {
+        "meta": {
+            "friendlyName": "device",
+            "type": "group"
+        },
+
+        "STATE": {
+            "meta": {
+                "friendlyName": "winterModeEnabled",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "HEIGHT": {
+            "meta": {
+                "friendlyName": "heightInMeters",
+                "settable": true,
+                "type": "height",
+                "computed": [{
+                    "friendlyName": "heightInFeet",
+                    "forward": [ 3.280839895013123, 0 ],
+                    "reverse": [ 0.3048, 0 ]
+                }]
+            }
+        }
+    },
+
+    "NW": {
+        "meta": {
+            "friendlyName": "network",
+            "type": "group"
+        },
+
+        "TOKEN": {
+            "meta": {
+                "friendlyName": "token",
+                "settable": false,
+                "type": "string"
+            }
+        },
+
+        "DHCP": {
+            "meta": {
+                "friendlyName": "isDhcpEnabled",
+                "settable": true,
+                "type": "power"
+            }
+        },
+
+        "SSID": {
+            "meta": {
+                "friendlyName": "ssid",
+                "settable": true,
+                "type": "string"
+            }
+        },
+
+        "AP": {
+            "meta": {
+                "valuePath": [ "STATUS" ],
+                "setPath": [ "STATUS" ],
+                "friendlyName": "isAccessPoint",
+                "settable": true,
+                "type": "power"
+            }
+        }
+    }
+}
