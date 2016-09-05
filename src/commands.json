@@ -177,7 +177,7 @@
         "ACTUAL": {
             "meta": {
                 "friendlyName": "actual",
-                "settable": true,
+                "settable": false,
                 "type": "enum",
                 "values": {
                     "OFF": "off",

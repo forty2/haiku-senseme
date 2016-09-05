@@ -4,10 +4,14 @@
   "description": "Control SenseME enabled devices from Haiku",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "babel --no-babelrc --plugins syntax-function-bind,transform-function-bind,transform-object-rest-spread -D -d docsrc src && jsdoc2md -f docsrc/*.js > API.md",
+    "build": "babel src -d dist -D",
+    "clean": "rm -rf dist/ && rm -rf docsrc/",
+    "example": "node ./dist/example.js"
   },
   "author": "Zach Bean <zb@forty2.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "any-observable": "^0.2.0",
     "compute-polynomial": "^1.1.0",
