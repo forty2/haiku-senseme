@@ -3,6 +3,7 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+![Dependency status](https://david-dm.org/forty2/haiku-senseme.svg)
 [![Downloads Stats][npm-downloads]][npm-url]
 
 haiku-senseme is a Node.js mdule for controlling SenseME-enabled devices by [Haiku](http://www.haikuhome.com/).
