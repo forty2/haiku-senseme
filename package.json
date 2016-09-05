@@ -8,7 +8,8 @@
     "docs": "babel --no-babelrc --plugins syntax-function-bind,transform-function-bind,transform-object-rest-spread -D -d docsrc src && jsdoc2md -f docsrc/*.js > API.md",
     "build": "babel src -d dist -D",
     "clean": "rm -rf dist/ && rm -rf docsrc/",
-    "example": "node ./dist/example.js"
+    "example": "node ./dist/example.js",
+    "prepublish": "npm run build"
   },
   "author": "Zach Bean <zb@forty2.com>",
   "license": "MIT",

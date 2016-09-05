@@ -4,14 +4,7 @@ import { nextTick } from 'process';
 
 import Logger from 'js-logger';
 
-let Observable, hasObservable;
-try {
-    Observable = require('any-observable');
-    hasObservable = true;
-}
-catch (e) {
-    Logger.debug("there's no Observable, but we can do without");
-}
+import Observable, { hasObservable } from './lib/observable';
 
 const $private = Symbol();
 

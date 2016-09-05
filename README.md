@@ -28,7 +28,7 @@ SenseME
   .on('founddevice', dev => {
     console.log(`Found: ${dev.name}`);
   })
-  .on('lostdevice', dev ==> {
+  .on('lostdevice', dev => {
     console.log(`Lost: ${dev.name}`);
   })
   .discover();

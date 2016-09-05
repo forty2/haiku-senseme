@@ -26,6 +26,7 @@
         * [.sleepMode](#module_Device..Device+sleepMode) : <code>[SleepModeProperties](#SleepModeProperties)</code>
         * [.device](#module_Device..Device+device) : <code>[DeviceProperties](#DeviceProperties)</code>
         * [.observeAll()](#module_Device..Device+observeAll) ⇒ <code>Observable</code>
+        * [.disconnect()](#module_Device..Device+disconnect)
         * [.listenAll()](#module_Device..Device+listenAll) ⇒ <code>EventEmitter</code>
         * [.refreshAll()](#module_Device..Device+refreshAll)
 
@@ -50,6 +51,7 @@ Represents one device on the local network, such as a fan.
     * [.sleepMode](#module_Device..Device+sleepMode) : <code>[SleepModeProperties](#SleepModeProperties)</code>
     * [.device](#module_Device..Device+device) : <code>[DeviceProperties](#DeviceProperties)</code>
     * [.observeAll()](#module_Device..Device+observeAll) ⇒ <code>Observable</code>
+    * [.disconnect()](#module_Device..Device+disconnect)
     * [.listenAll()](#module_Device..Device+listenAll) ⇒ <code>EventEmitter</code>
     * [.refreshAll()](#module_Device..Device+refreshAll)
 
@@ -140,6 +142,12 @@ See [https://www.npmjs.com/package/any-observable](https://www.npmjs.com/package
 
 **Kind**: instance method of <code>[Device](#module_Device..Device)</code>  
 **Returns**: <code>Observable</code> - An ES7-compatible obsevable that emits objects of the form `{ path, value }` for each property change.  
+<a name="module_Device..Device+disconnect"></a>
+
+#### device.disconnect()
+Disconnect from the device.
+
+**Kind**: instance method of <code>[Device](#module_Device..Device)</code>  
 <a name="module_Device..Device+listenAll"></a>
 
 #### device.listenAll() ⇒ <code>EventEmitter</code>
@@ -166,6 +174,7 @@ methods on the individual values of interest.
         * [.default](#module_SenseMe.default) : <code>SenseMe</code>
     * _inner_
         * [~SenseMe](#module_SenseMe..SenseMe)
+            * [.getAllDevices()](#module_SenseMe..SenseMe+getAllDevices) ⇒ <code>Array.&lt;Device&gt;</code>
             * [.getDeviceById(id)](#module_SenseMe..SenseMe+getDeviceById) ⇒ <code>Device</code>
             * [.getDeviceByName(name)](#module_SenseMe..SenseMe+getDeviceByName) ⇒ <code>Device</code>
             * [.discover([interval], [missingThreshold])](#module_SenseMe..SenseMe+discover)
@@ -183,11 +192,18 @@ Discover and manage SenseME-enabled devices on the local network.
 **Kind**: inner class of <code>[SenseMe](#module_SenseMe)</code>  
 
 * [~SenseMe](#module_SenseMe..SenseMe)
+    * [.getAllDevices()](#module_SenseMe..SenseMe+getAllDevices) ⇒ <code>Array.&lt;Device&gt;</code>
     * [.getDeviceById(id)](#module_SenseMe..SenseMe+getDeviceById) ⇒ <code>Device</code>
     * [.getDeviceByName(name)](#module_SenseMe..SenseMe+getDeviceByName) ⇒ <code>Device</code>
     * [.discover([interval], [missingThreshold])](#module_SenseMe..SenseMe+discover)
     * [.cancelDiscovery()](#module_SenseMe..SenseMe+cancelDiscovery)
 
+<a name="module_SenseMe..SenseMe+getAllDevices"></a>
+
+#### senseMe.getAllDevices() ⇒ <code>Array.&lt;Device&gt;</code>
+Get a list of all currently known devices.
+
+**Kind**: instance method of <code>[SenseMe](#module_SenseMe..SenseMe)</code>  
 <a name="module_SenseMe..SenseMe+getDeviceById"></a>
 
 #### senseMe.getDeviceById(id) ⇒ <code>Device</code>

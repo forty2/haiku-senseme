@@ -1,4 +1,4 @@
-import Observable from 'any-observable';
+import Observable from './index';
 
 class FlatMapObserver {
     constructor(subscriber, mapper) {

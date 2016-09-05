@@ -1,0 +1,7 @@
+src/
+docsrc/
+src/test*
+src/example.js
+node_modules/
+API.md
+NOTES.md
