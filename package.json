@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Control SenseME enabled devices from Haiku",
   "main": "dist/index.js",
+  "repository": "forty2/haiku-senseme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "babel --no-babelrc --plugins syntax-function-bind,transform-function-bind,transform-object-rest-spread -D -d docsrc src && jsdoc2md -f docsrc/*.js > API.md",
