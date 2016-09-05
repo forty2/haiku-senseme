@@ -93,6 +93,17 @@ class SenseMe extends EventEmitter {
     }
 
     /**
+     * Get a list of all currently known devices.
+     * @returns {Array<Device>}
+     */
+    getAllDevices() {
+        const {
+            registry
+        } = this[$private];
+        return Object.keys(registry).map(k => registry[k].device);
+    }
+
+    /**
      * Get one discovered device by its ID (usually MAC address).
      * @param {string} id - The ID of the requested device.
      * @returns {Device}
@@ -134,7 +145,7 @@ class SenseMe extends EventEmitter {
     discover(interval = DEFAULT_SCAN_INTERVAL, missingThreshold = MISSING_THRESHOLD) {
         const { registry } = this[$private];
 
-        let server = dgram.createSocket('udp4');
+        let server = this[$private].server = dgram.createSocket('udp4');
         server
             .on('error', (err) => {
                 console.log(`server error:\n${err.stack}`);
@@ -160,7 +171,11 @@ class SenseMe extends EventEmitter {
             .on('listening', () => {
                 var address = server.address();
                 console.log(`server listening ${address.address}:${address.port}`);
-            });
+            })
+            .on('close', () => {
+                console.log('server shutting down');
+            })
+            ;
 
         server.bind(SENSEME_PORT);
 
@@ -168,9 +183,10 @@ class SenseMe extends EventEmitter {
             let client = dgram.createSocket('udp4');
             client.bind(() => {
                 client.setBroadcast(true);
-                client.send('<ALL;DEVICE;ID;GET>', SENSEME_PORT, BROADCAST_ADDR);
-                nextTick(() => {
+                client.send('<ALL;DEVICE;ID;GET>', SENSEME_PORT, BROADCAST_ADDR, () => {
                     client.close()
+                });
+                nextTick(() => {
                     Object.keys(registry)
                         .filter(x => (registry[x].lastseen + (missingThreshold * interval))< Date.now())
                         .forEach(x => {
@@ -194,6 +210,10 @@ class SenseMe extends EventEmitter {
     cancelDiscovery() {
         clearInterval(this._discoveryInterval);
         this._discoveryInterval = undefined;
+        Logger.info("Discovery cancelled");
+
+        this[$private].server.close();
+        this[$private].server = undefined;
     }
 }
 

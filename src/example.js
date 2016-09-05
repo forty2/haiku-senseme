@@ -1,7 +1,5 @@
-import 'any-observable/register/rxjs';
-import './lib/polyfills';
-
-import util from 'util';
+// uncomment if you've installed rxjs
+// import 'any-observable/register/rxjs-all';
 
 import Logger from 'js-logger';
 
@@ -29,56 +27,6 @@ Logger.useDefaults({
     }
 })
 
-/*
-const QueuedSocket = require('./QueuedSocket');
-const { Transform } = require('stream');
-const streamify = require('stream-array');
-
-
-const { Observable } = require('@reactivex/rxjs');
-
-let g;
-if (typeof window !== 'undefined') {
-    g = window;
-} else if (typeof global !== 'undefined') {
-    g = global;
-}
-
-if (g) {
-    g.Observable = Observable;
-}
-
-class AddANewline extends Transform {
-    _transform(line, encoding, processed) {
-        this.push(line + '\n');
-        processed();
-    }
-
-    _flush() { }
-}
-
-
-
-let socket = new QueuedSocket('192.168.2.81', 31415, /\([^)]+\)/);
-*/
-
-    /*
-socket
-    .pipe(new AddANewline())
-    .pipe(process.stdout);
-    */
-
-/*
-socket.data
-    .subscribe(x => console.log(x), e => console.error(e), () => console.log('done'));
-
-streamify([
-    '<Living Room Fan;FAN;SPD;SET;2>'
-])
-    .pipe(socket);
-    */
-
-
 SenseME
     .on('founddevice', dev => {
         Logger.debug(`Found a device: ${dev.name} (${dev.ip})`);
@@ -87,36 +35,3 @@ SenseME
         Logger.debug(`Lost a device: ${dev.name} (${dev.ip})`);
     })
     .discover();
-
-        /*
-        dev.observeAll()
-            .subscribe(
-                ::Logger.debug,
-                ::Logger.error,
-                () => Logger.info('done')
-            );
-            */
-
-        //dev.fan.power.listen()
-        /*
-        dev.listenAll()
-            .on('change', x => log.debug(x))
-            ;
-        */
-
-            /*
-            dev.observeAll()
-                .subscribe(
-                    ::Logger.debug,
-                    ::Logger.error,
-                    () => Logger.info('done')
-                );
-                */
-            /*
-            setTimeout(function() {
-                console.log(`get: ${dev.name}: ${dev.fan.speed.value}`);
-            }, 1000);
-            setTimeout(function() {
-                dev.fan.speed.value = 2;
-            }, 5000);
-            */

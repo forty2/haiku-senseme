@@ -140,6 +140,14 @@ class Device {
     }
 
     /**
+     * Disconnect from the device.
+     */
+    disconnect() {
+      this[$private].socket.close();
+      this[$private].socket = undefined;
+    }
+
+    /**
      * Listen for changes to any of the properties of this device.
      * Changes are delivered as 'change' events emitted by the returned
      * emitter.

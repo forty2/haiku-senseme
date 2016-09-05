@@ -40,6 +40,7 @@ Discovery will continue indefinitely until you stop it:
 import { SenseME } from 'haiku-senseme';
 
 SenseME.cancelDiscovery();
+SenseME.getAllDevices().forEach(dev => dev.disconnect());
 ```
 
 If you know the IP address and either the name or the MAC address of your device, you can skip discovery altogether if you prefer:
@@ -77,7 +78,7 @@ Since other devices on the network might change some of these values, it's also 
 dev.fan.speed.refresh();
 
 // keep track of changes in speed
-dev.fan.speed.value.listen()
+dev.fan.speed.listen()
   .on('change', speed => console.log(`Current speed: ${speed}`));
 
 // keep track of any change to any property
@@ -108,7 +109,7 @@ dev.fan.speed
   .distinctUntilChanged()
   .filter(x => x)
   .subscribe(
-    x => console.log(`Oh no! The fan's going too slow! (current speed: ${x}`);
+    x => console.log(`Oh no! The fan's going too slow! (current speed: ${x}`)
   );
 
 // You can also observe changes in all properties
@@ -116,8 +117,8 @@ dev.observeAll()
   // but really I only care about fan properties
   .filter(({ path: [category] }) => category === 'fan')
   .subscribe(
-    x => {
-      console.log(`Something about the fan has changed: ${path}, ${value}`);
+    ({ path: [, ...prop], value }) => {
+      console.log(`Something about the fan has changed: ${prop}, ${value}`);
     }
   );
 ```
