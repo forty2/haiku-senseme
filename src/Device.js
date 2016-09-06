@@ -175,7 +175,7 @@ class Device {
      */
     refreshAll() {
         // for whatever reason, SNSROCC;STATUS is skipped by GETALL.
-        this._sendMessage('GETALL', 'SNSROCC;STATUS;GET');
+        this._sendMessage('GETALL', 'SNSROCC;STATUS;GET', 'NAME;VALUE;GET');
     }
 
     /**
