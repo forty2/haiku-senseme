@@ -323,6 +323,21 @@
         }
     },
 
+    "NAME": {
+        "meta": {
+            "friendlyName": "device",
+            "type": "group"
+        },
+
+        "VALUE": {
+            "meta": {
+                "friendlyName": "name",
+                "settable": true,
+                "type": "string"
+            }
+        }
+    },
+
     "WINTERMODE": {
         "meta": {
             "friendlyName": "device",
