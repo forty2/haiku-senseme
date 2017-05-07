@@ -1,6 +1,6 @@
 {
   "name": "haiku-senseme",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Control SenseME enabled devices from Haiku",
   "main": "dist/index.js",
   "repository": "forty2/haiku-senseme",
