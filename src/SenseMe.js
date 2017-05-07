@@ -2,11 +2,11 @@ import { EventEmitter } from 'events';
 import { nextTick } from 'process';
 import dgram from 'dgram';
 
-import Logger from 'js-logger';
-
 import Device from './Device';
 
 import constants from './constants';
+
+const debug = require('debug')('haiku-senseme:senseme');
 
 /**
  * @module
@@ -157,7 +157,7 @@ class SenseMe extends EventEmitter {
                 }
                 if (!msg.startsWith('(')) return;
 
-                Logger.debug(`UDP Incoming: ${msg}`);
+                debug(`UDP Incoming: ${msg}`);
 
                 let [ name, namespace, command, id, type ] = msg.substr(1, msg.length-2).split(';');
 
@@ -210,7 +210,7 @@ class SenseMe extends EventEmitter {
     cancelDiscovery() {
         clearInterval(this._discoveryInterval);
         this._discoveryInterval = undefined;
-        Logger.info("Discovery cancelled");
+        debug("Discovery cancelled");
 
         this[$private].server.close();
         this[$private].server = undefined;

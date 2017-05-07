@@ -150,6 +150,10 @@ npm run clean
 
 ## Release History
 
+* 1.1.0
+    * Split QueuedSocket.js into its own module, now called `message-socket`
+    * Switch from `js-logger` to `debug` for logging.
+
 * 1.0.0
     * The first release.
 

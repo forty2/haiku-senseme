@@ -1,18 +1,19 @@
 import { EventEmitter } from 'events';
 
-import Logger from 'js-logger';
 import compose from 'just-compose';
+import MessageSocket from 'message-socket';
 
 import Observable, { hasObservable } from './lib/observable';
 import { method as flatMap } from './lib/observable/flatMap';
 
-import QueuedSocket from './QueuedSocket';
 import State from './State';
 
 import createAccessors from './lib/createAccessors';
 import { translateHardwareValues, mapBack } from './lib/mapValues';
 
 import constants from './constants';
+
+const debug = require('debug')('haiku-senseme:device');
 
 /** @module */
 
@@ -34,11 +35,11 @@ class Device {
      * @param {EventEmitter} messenger - An EventEmitter for funneling incoming messages from the discovery process.
      */
     constructor({ name, id, type, ip }, messenger) {
-        Logger.debug(`constructing a device: ${name}, ${id}, ${type}, ${ip}`);
+        debug(`constructing a device: ${name}, ${id}, ${type}, ${ip}`);
         this[$private] = { name, id, type, ip };
 
         let socket = this[$private].socket =
-            new QueuedSocket(ip, SENSEME_PORT, /\([^)]+\)/g);
+            new MessageSocket(ip, SENSEME_PORT, /\([^)]+\)/g);
 
         socket.on('data', data => this._handleMessage(data.toString()));
         if (messenger) {
@@ -107,7 +108,7 @@ class Device {
      * @private
      */
     _handleMessage(msg) {
-        Logger.debug(`Incoming: ${msg}`);
+        debug(`Incoming: ${msg}`);
         let path = msg.replace(/^\(([^)]+)\)$/, '$1').split(';');
         let deviceName = path.shift();
 
